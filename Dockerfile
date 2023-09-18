@@ -55,6 +55,6 @@ COPY . /code/
 # use the unprivileged user
 USER app
 
-EXPOSE 8080
+EXPOSE 9090
 
 CMD ["python", "main.py"]
