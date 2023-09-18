@@ -7,5 +7,5 @@ class PaymentRepository(AbstractRepository):
         self.session = session
 
     def create_order(self, order: Order) -> Order:
-        # order.save() TODO restore when rds is implemented
+        order.save()
         return order
