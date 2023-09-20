@@ -10,6 +10,14 @@ class AbstractRepository(ABC):
     def create_order(self, order: Order) -> None:
         raise NotImplementedError
 
+    @abstractmethod
+    def update_status(self, order: Order, status: str) -> None:
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_payment_order(self, order_id: str) -> Order:
+        raise NotImplementedError
+
 
 class AbstractUnitOfWork(ABC):
     payment: AbstractRepository
