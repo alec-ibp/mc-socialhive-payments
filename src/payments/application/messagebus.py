@@ -12,7 +12,10 @@ def handler(event: Event, by_batch: bool = False):
 
 
 def create_payment_event(event: CreatePayment) -> Any:
-    # TODO implement payment event
+    print("Sending charge payment event")
+    # just mocking a delay
+    import time
+    time.sleep(5)
     return event
 
 

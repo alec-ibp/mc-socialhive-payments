@@ -10,13 +10,21 @@ def create_order(uow: AbstractUnitOfWork, order_request: Order) -> Order | None:
     with uow:
         order: Order = uow.payment.create_order(order=order_request)
         uow.commit()
-    with uow:
-        handler(CreatePayment(order.pk, order.total))
-        # TODO update order status with uow
         return order
 
 
-def complete_order(uow: AbstractUnitOfWork, order: Order) -> Order | None:
+def charge_order(uow: AbstractUnitOfWork, order: Order) -> None:
     with uow:
         uow.payment.update_status(order=order, status=OrderStatus.PENDING)
         uow.commit()
+
+    handler(CreatePayment(order.pk, order.total))
+
+    with uow:
+        uow.payment.update_status(order=order, status=OrderStatus.COMPLETED)
+        uow.commit()
+
+
+def get_payment_order(uow: AbstractUnitOfWork, order_id: str) -> Order:
+    with uow:
+        return uow.payment.get_payment_order(order_id)
