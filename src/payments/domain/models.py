@@ -6,7 +6,7 @@ from redis_om.model import HashModel
 class OrderStatus(str, Enum):
     CREATED = "created"
     PENDING = "pending"
-    PAID = "paid"
+    COMPLETED = "completed"
     CANCELED = "canceled"
     REFUNDED = "refunded"
 
