@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from src.payments.domain.models import Order, OrderStatus
 from src.payments.domain.interfaces import AbstractUnitOfWork
-from src.payments.domain.events import CreatePayment
+from src.payments.domain.events import CreatePayment, CompletedPayment
 from src.payments.application.messagebus import handler
 
 
@@ -23,6 +23,8 @@ def charge_order(uow: AbstractUnitOfWork, order: Order) -> None:
     with uow:
         uow.payment.update_status(order=order, status=OrderStatus.COMPLETED)
         uow.commit()
+
+    handler(CompletedPayment(**order.dict()))
 
 
 def get_payment_order(uow: AbstractUnitOfWork, order_id: str) -> Order:
